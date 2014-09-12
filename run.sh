@@ -57,3 +57,13 @@ if [ $? -ne 0 ]; then exit $?; fi
 if [ $? -ne 0 ]; then exit $?; fi
 rm tcf-d
 echo; echo;
+
+echo "Objective-C"
+gcc --version
+echo;
+gcc `gnustep-config --objc-flags` -w Tcf.m -o tcf-objc -I /usr/include/GNUstep/ -L /usr/lib/GNUstep/ -lgnustep-base
+if [ $? -ne 0 ]; then exit $?; fi
+./tcf-objc
+if [ $? -ne 0 ]; then exit $?; fi
+rm tcf-objc tcf-objc.d
+echo; echo;
