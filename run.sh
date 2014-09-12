@@ -31,3 +31,8 @@ echo "PHP5"
 php5 Tcf.php
 if [ $? -ne 0 ]; then exit $?; fi
 echo; echo;
+
+echo "Ruby"
+ruby Tcf.rb
+if [ $? -ne 0 ]; then exit $?; fi
+echo; echo;
