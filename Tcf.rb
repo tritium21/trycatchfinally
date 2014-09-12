@@ -8,7 +8,7 @@ begin
         puts "Inner Finally"
     end
 rescue
-    puts "Outter Catch"
+    puts "Outer Catch"
 ensure
-    puts "Outter Finally"
+    puts "Outer Finally"
 end

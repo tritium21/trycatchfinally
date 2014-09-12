@@ -15,10 +15,10 @@ public class Tcf
 			}
 		}
 		catch (Exception ex) {
-			System.out.println("Outter Catch");
+			System.out.println("Outer Catch");
 		}
 		finally {
-			System.out.println("Outter Finally");
+			System.out.println("Outer Finally");
 		}
 	}
 }

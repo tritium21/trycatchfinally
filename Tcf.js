@@ -11,8 +11,8 @@ try {
 	}
 }
 catch (ex) {
-	print("Outter Catch");
+	print("Outer Catch");
 }
 finally {
-	print("Outter Finally");
+	print("Outer Finally");
 }

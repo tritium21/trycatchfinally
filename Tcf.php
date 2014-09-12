@@ -12,9 +12,9 @@ try {
     }
 }
 catch (Exception $e) {
-    echo "Outter Catch\n";
+    echo "Outer Catch\n";
 }
 finally {
-    echo "Outter Finally\n";
+    echo "Outer Finally\n";
 }
 ?>

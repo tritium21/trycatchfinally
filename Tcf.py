@@ -9,6 +9,6 @@ try:
     finally:
         print('Inner Finally')
 except Exception as e:
-    print('Outter Catch')
+    print('Outer Catch')
 finally:
-    print('Outter Finally')
+    print('Outer Finally')

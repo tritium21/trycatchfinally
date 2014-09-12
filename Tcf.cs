@@ -17,10 +17,10 @@ public class Test
 			}
 		}
 		catch (Exception ex) {
-			Console.WriteLine("Outter Catch");
+			Console.WriteLine("Outer Catch");
 		}
 		finally {
-			Console.WriteLine("Outter Finally");
+			Console.WriteLine("Outer Finally");
 		}
 	}
 }
