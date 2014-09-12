@@ -1,6 +1,6 @@
 #!/usr/bin/env python2
 from collections import namedtuple
-from subprocess import check_output, check_call, CalledProcessError
+from subprocess import check_output, check_call, CalledProcessError, STDOUT
 from os import unlink
 from ConfigParser import SafeConfigParser
 from sys import argv, exit
@@ -18,7 +18,9 @@ def _sub(instr):
 
 def print_ver(job):
     try:
-        versions = [check_output(v, shell=True) for v in job.versions]
+        versions = [
+            check_output(v, shell=True, stderr=STDOUT) for v in job.versions
+        ]
     except:
         raise
     else:
