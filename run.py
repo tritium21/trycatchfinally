@@ -4,8 +4,9 @@ from subprocess import check_output, check_call, CalledProcessError, STDOUT
 from os import unlink
 from ConfigParser import SafeConfigParser
 from sys import argv, exit
+from argparse import ArgumentParser
 
-Job = namedtuple('Job', 'name versions source build run cleanup')
+Job = namedtuple('Job', 'name version source build run cleanup')
 
 
 def _sec(instr):
@@ -16,10 +17,10 @@ def _sub(instr):
     return '\033[31m' + instr + '\033[0m'
 
 
-def print_ver(job):
+def version(job):
     try:
         versions = [
-            check_output(v, shell=True, stderr=STDOUT) for v in job.versions
+            check_output(v, shell=True, stderr=STDOUT) for v in job.version
         ]
     except:
         raise
@@ -28,7 +29,7 @@ def print_ver(job):
         print '\n'.join(versions)
 
 
-def print_source(job):
+def source(job):
     sources = []
     for sf in job.source:
         try:
@@ -44,13 +45,20 @@ def print_source(job):
 
 
 def build(job):
-    for step in job.build:
-        check_call(step, shell=True)
+    if job.build != ['']:
+        print _sub('Building')
+        for step in job.build:
+            print _sub('Build: ') + step
+            check_call(step, shell=True)
 
 
 def run(job):
     try:
-        out = [check_output(step, shell=True) for step in job.run]
+        out = []
+        print _sub('Running')
+        for step in job.run:
+            print _sub('Run: ') + step
+            out.append(check_output(step, shell=True))
     except:
         raise
     else:
@@ -59,20 +67,25 @@ def run(job):
 
 
 def cleanup(job):
-    for f in job.cleanup:
-        try:
-            unlink(f)
-        except OSError:
-            pass
+    if job.cleanup != ['']:
+        print _sub('Cleanup')
+        for f in job.cleanup:
+            try:
+                unlink(f)
+            except OSError:
+                pass
+            else:
+                print _sub('rm: ') + f
+    print "\n"
 
 
 def execute(jobs, show_source=True):
     for job in jobs:
         print _sec('Language: ' + job.name)
         try:
-            print_ver(job)
+            version(job)
             if show_source:
-                print_source(job)
+                source(job)
             build(job)
             run(job)
         except CalledProcessError as e:
@@ -86,16 +99,29 @@ def get_jobs(conf='run.conf'):
     config.read(conf)
     langs = config.sections()
     jobs = [
-        Job._make([l] + [v.split('\n') for k, v in config.items(l)])
-        for l in langs
+        Job(**d) for d in
+        [dict([('name', l)] + [(k, v.split('\n')) for k, v in config.items(l)])
+         for l in langs]
     ]
     return jobs
 
 
 def main(argv):
-    jobs = get_jobs()
-    return execute(jobs)
+    parser = ArgumentParser()
+    parser.add_argument(
+        '-s', '--nosource',
+        help="Hide the source from output",
+        action='store_false',
+    )
+    parser.add_argument(
+        '-c', '--config',
+        help="Set job config file.  (default: run.conf)",
+        default='run.conf'
+    )
+    args = parser.parse_args(argv)
+    jobs = get_jobs(args.config)
+    return execute(jobs, show_source=args.nosource)
 
 
 if __name__ == '__main__':
-    exit(main(argv))
+    exit(main(argv[1:]))
