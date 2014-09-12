@@ -1,0 +1,4 @@
+*.[Ee][Xx][Ee]
+*.class
+*.py[ocd]
+__pycache__/
