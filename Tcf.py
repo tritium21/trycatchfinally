@@ -2,13 +2,20 @@ from __future__ import print_function
 
 try:
     try:
-        raise Exception("Foo")
+        try:
+            raise Exception("Foo")
+        except Exception as e:
+            print('Inner Catch')
+            raise
+        finally:
+            print('Inner Finally')
     except Exception as e:
-        print('Inner Catch')
-        raise
+        print('Outer Catch')
     finally:
-        print('Inner Finally')
-except Exception as e:
-    print('Outer Catch')
+        print('Outer Finally')
+except:
+    pass
+else:
+    print("Else runs if no exception is raised")
 finally:
-    print('Outer Finally')
+    print("Finally always runs")
