@@ -1,5 +1,6 @@
 #!/bin/bash
 echo "C#"
+dmcs --version
 dmcs -warn:0 Tcf.cs
 if [ $? -ne 0 ]; then exit $?; fi
 ./Tcf.exe
@@ -9,6 +10,8 @@ if [ $? -ne 0 ]; then exit $?; fi
 echo; echo;
 
 echo "Java"
+java -version
+javac -version
 javac Tcf.java
 if [ $? -ne 0 ]; then exit $?; fi
 java Tcf
@@ -18,21 +21,25 @@ if [ $? -ne 0 ]; then exit $?; fi
 echo; echo;
 
 echo "Python"
+python -c "print(__import__('sys').version)"
 python Tcf.py
 if [ $? -ne 0 ]; then exit $?; fi
 echo; echo;
 
 echo "ECMAScript"
+js -e "print(org.mozilla.javascript.Context.getCurrentContext().getImplementationVersion())"
 js Tcf.js
 if [ $? -ne 0 ]; then exit $?; fi
 echo; echo;
 
 echo "PHP5"
+php5 --version
 php5 Tcf.php
 if [ $? -ne 0 ]; then exit $?; fi
 echo; echo;
 
 echo "Ruby"
+ruby --version
 ruby Tcf.rb
 if [ $? -ne 0 ]; then exit $?; fi
 echo; echo;
