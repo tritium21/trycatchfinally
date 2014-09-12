@@ -49,3 +49,13 @@ echo;
 ruby Tcf.rb
 if [ $? -ne 0 ]; then exit $?; fi
 echo; echo;
+
+echo "D"
+gdc --version
+echo;
+gdc -o tcf-d Tcf.d
+if [ $? -ne 0 ]; then exit $?; fi
+./tcf-d
+if [ $? -ne 0 ]; then exit $?; fi
+rm tcf-d
+echo; echo;
