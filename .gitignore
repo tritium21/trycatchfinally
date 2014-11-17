@@ -2,3 +2,4 @@
 *.class
 *.py[ocd]
 __pycache__/
+.venv/

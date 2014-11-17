@@ -6,6 +6,10 @@ from ConfigParser import SafeConfigParser
 from sys import argv, exit
 from argparse import ArgumentParser
 
+from pygments import highlight
+from pygments.lexers import get_lexer_for_filename
+from pygments.formatters import TerminalFormatter
+
 Job = namedtuple('Job', 'name version source build run cleanup')
 
 
@@ -34,7 +38,11 @@ def source(job):
     for sf in job.source:
         try:
             with open(sf) as f:
-                sources.append((sf, f.read()))
+                _source = f.read()
+                lex = get_lexer_for_filename(sf)
+                fmt = TerminalFormatter(style='colorful')
+                res = highlight(_source, lex, fmt)
+                sources.append((sf, res))
         except OSError:
             pass
     if sources:
