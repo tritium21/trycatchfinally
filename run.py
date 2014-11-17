@@ -8,7 +8,7 @@ from argparse import ArgumentParser
 
 from pygments import highlight
 from pygments.lexers import get_lexer_for_filename
-from pygments.formatters import TerminalFormatter
+from pygments.formatters import Terminal256Formatter
 
 Job = namedtuple('Job', 'name version source build run cleanup')
 
@@ -40,7 +40,7 @@ def source(job):
             with open(sf) as f:
                 _source = f.read()
                 lex = get_lexer_for_filename(sf)
-                fmt = TerminalFormatter(style='colorful')
+                fmt = Terminal256Formatter(style='friendly')
                 res = highlight(_source, lex, fmt)
                 sources.append((sf, res))
         except OSError:
